@@ -310,7 +310,7 @@ describe('GraphQL', function(){
     ;
   });
 
-  it.only('should retreive Tv', function(){
+  it('should retreive Tv', function(){
     return graphql.graphql(schema, tvGql)
       .then((result) => {
         if (result.errors) {

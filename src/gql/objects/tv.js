@@ -17,35 +17,25 @@ module.exports = (resolvers, requireObject) => {
     fields: {
       backdrop_path: { type: graphql.GraphQLString },
       external_ids: { type: ExternalIds },
-      episode_run_time: { 
-        type: new graphql.GraphQLList(graphql.GraphQLInt) 
-      },
+      episode_run_time: { type: new graphql.GraphQLList(graphql.GraphQLInt) },
       first_air_date: { type: graphql.GraphQLString },
       genres: { type: new graphql.GraphQLList(Genre) },
       homepage: { type: graphql.GraphQLString },
       id: { type: graphql.GraphQLID },
       in_production: { type: graphql.GraphQLBoolean },
-      languages: { 
-        type: new graphql.GraphQLList(graphql.GraphQLString)
-      },
+      languages: { type: new graphql.GraphQLList(graphql.GraphQLString) },
       last_air_date: { type: graphql.GraphQLString },
       name: { type: graphql.GraphQLString },
-      networks: {
-        type: new graphql.GraphQLList(Network)
-      },
+      networks: { type: new graphql.GraphQLList(Network) },
       number_of_episodes: { type: graphql.GraphQLInt },
       number_of_seasons: { type: graphql.GraphQLInt },
-      origin_country: { 
-        type: new graphql.GraphQLList(graphql.GraphQLString)
-      },
+      origin_country: { type: new graphql.GraphQLList(graphql.GraphQLString) },
       original_language: { type: graphql.GraphQLString },
       original_name: { type: graphql.GraphQLString },
       overview: { type: graphql.GraphQLString },
       popularity: { type: graphql.GraphQLFloat },
       poster_path: { type: graphql.GraphQLString },
-      production_companies: {
-        type: new graphql.GraphQLList(ProductionCompany)
-      },
+      production_companies: { type: new graphql.GraphQLList(ProductionCompany) },
       status: { type: graphql.GraphQLString },
       type: { type: graphql.GraphQLString },
       vote_average: { type: graphql.GraphQLFloat },

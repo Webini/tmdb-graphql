@@ -2,6 +2,30 @@ const schema = require('../../src/gql/schema.js')();
 const graphql = require('graphql');
 const assert = require('assert');
 
+const genreFragment = `
+fragment genre on Genre {
+  id
+  name
+}`;
+
+const productionCompanyFragment = `
+fragment productionCompany on ProductionCompany {
+  id
+  name
+}`;
+
+const languageFragment = `
+fragment language on Language {
+  iso_639_1
+  name
+}`;
+
+const countryFragment = `
+fragment country on Country {
+  iso_3166_1
+  name
+}`;
+
 const castFragment = `
  fragment cast on Cast {
   cast_id
@@ -75,11 +99,39 @@ fragment episode on Episode {
   vote_count
 }`;
 
+const networkFragment = `
+fragment network on Network {
+  id
+  name
+}`;
+
 const movieGql = `
 { 
   movie(id: 283995) { 
-    id, 
-    title, 
+    id
+    adult
+    backdrop_path
+    budget
+    genres { ...genre }
+    homepage
+    imdb_id
+    original_language
+    original_title
+    overview
+    popularity
+    poster_path
+    production_companies { ...productionCompany }
+    production_countries { ...country }
+    release_date
+    revenue
+    runtime
+    spoken_languages { ...language }
+    status
+    tagline
+    title
+    video
+    vote_average
+    vote_count
     videos { ...video },
     credits {
       cast { ...cast }
@@ -97,13 +149,39 @@ ${crewFragment}
 ${castFragment}
 ${videoFragment}
 ${keywordFragment}
+${genreFragment}
+${productionCompanyFragment}
+${languageFragment}
+${countryFragment}
 `;
 
 const tvGql = `
 { 
   tv(id: 13916) { 
-    id, 
-    name, 
+    backdrop_path
+    episode_run_time
+    first_air_date
+    genres { ...genre }
+    homepage
+    id
+    in_production
+    languages
+    last_air_date
+    name
+    networks { ...network }
+    number_of_episodes
+    number_of_seasons
+    origin_country
+    original_language
+    original_name
+    overview
+    popularity
+    poster_path
+    production_companies { ...productionCompany }
+    status
+    type
+    vote_average
+    vote_count
     videos { ...video },
     credits {
       cast { ...cast }
@@ -126,6 +204,9 @@ ${castFragment}
 ${videoFragment}
 ${keywordFragment}
 ${externalIdsFragment}
+${networkFragment}
+${productionCompanyFragment}
+${genreFragment}
 `;
 
 const seasonGql = `
@@ -208,13 +289,15 @@ describe('GraphQL', function(){
     ;
   });
 
-  it('should retreive Tv', function(){
+  it.only('should retreive Tv', function(){
     return graphql.graphql(schema, tvGql)
       .then((result) => {
         if (result.errors) {
           throw new Error(result.errors);
         }
         const tv = result.data.tv;
+        // require('fs').writeFileSync('./tv.json', JSON.stringify(tv));
+        // console.log(require('util').inspect(tv, { depth: null }));
         assert.ok(tv.images, 'Cannot found images');
         assert.ok(tv.videos, 'Cannot found videos');
         assert.ok(tv.credits, 'Cannot found credits');

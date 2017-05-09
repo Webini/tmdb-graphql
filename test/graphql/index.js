@@ -105,6 +105,27 @@ fragment network on Network {
   name
 }`;
 
+const seasonFragment = `
+fragment season on Season {
+  air_date
+  name
+  overview
+  id
+  poster_path
+  season_number
+  credits {
+    cast { ...cast }
+    crew { ...crew } 
+  },
+  images { 
+    backdrops { ...image }, 
+    posters { ...image }
+  },
+  videos { ...video }
+  episodes { ...episode }
+}
+`;
+
 const movieGql = `
 { 
   movie(id: 283995) { 
@@ -193,9 +214,7 @@ const tvGql = `
     },
     keywords { ...keyword },
     external_ids { ...extIds },
-    seasons {
-      name
-    }
+    seasons { ...season }
   } 
 }
 ${imageFragment}
@@ -207,6 +226,8 @@ ${externalIdsFragment}
 ${networkFragment}
 ${productionCompanyFragment}
 ${genreFragment}
+${seasonFragment}
+${episodeFragment}
 `;
 
 const seasonGql = `

@@ -1,0 +1,17 @@
+{
+  "name": "tmdb-graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/gql/schema.js",
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha --recursive"
+  },
+  "author": "GASPARINI Nicolas",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "graphql": "^0.9.6",
+    "mocha": "^3.3.0",
+    "moviedb": "^0.2.8"
+  }
+}

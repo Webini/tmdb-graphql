@@ -28,23 +28,18 @@ fragment country on Country {
 
 const castFragment = `
  fragment cast on Cast {
-  cast_id
-  character
-  credit_id
   id
-  name
+  character
   order
-  profile_path
+  person { ...person }
 }`;
 
 const crewFragment = ` 
 fragment crew on Crew {
-  credit_id
-  department
   id
+  department
   job
-  name
-  profile_path
+  person { ...person }
 }`;
 
 const imageFragment = `
@@ -105,6 +100,13 @@ fragment network on Network {
   name
 }`;
 
+const personFragment = `
+fragment person on Person {
+  id
+  name
+  profile_path
+}`;
+
 const seasonFragment = `
 fragment season on Season {
   air_date
@@ -129,6 +131,10 @@ fragment season on Season {
 const movieGql = `
 { 
   movie(id: 283995) { 
+    credits {
+      cast { ...cast }
+      crew { ...crew } 
+    }
     id
     adult
     backdrop_path
@@ -153,21 +159,18 @@ const movieGql = `
     video
     vote_average
     vote_count
-    videos { ...video },
-    credits {
-      cast { ...cast }
-      crew { ...crew } 
-    },
+    videos { ...video }
     images { 
-      backdrops { ...image }, 
+      backdrops { ...image },
       posters { ...image }
     },
     keywords { ...keyword }
   } 
 }
-${imageFragment}
+${personFragment}
 ${crewFragment}
 ${castFragment}
+${imageFragment}
 ${videoFragment}
 ${keywordFragment}
 ${genreFragment}
@@ -217,6 +220,7 @@ const tvGql = `
     seasons { ...season }
   } 
 }
+${personFragment}
 ${imageFragment}
 ${crewFragment}
 ${castFragment}
@@ -246,6 +250,7 @@ const seasonGql = `
     episodes { ...episode }
   } 
 }
+${personFragment}
 ${imageFragment}
 ${crewFragment}
 ${castFragment}

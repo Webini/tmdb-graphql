@@ -8,8 +8,14 @@ module.exports = (resolvers, requireObject) => {
     name: 'Credits',
     fields: {
       id: { type: graphql.GraphQLID },
-      cast: { type: new graphql.GraphQLList(Cast) },
-      crew: { type: new graphql.GraphQLList(Crew) }
+      cast: { 
+        type: new graphql.GraphQLList(Cast),
+        resolve: resolvers.personList
+      },
+      crew: { 
+        type: new graphql.GraphQLList(Crew),
+        resolve: resolvers.personList 
+      }
     }
   });
 };

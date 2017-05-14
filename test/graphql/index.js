@@ -6,11 +6,7 @@ describe('GraphQL', function(){
   this.timeout(120000);
   it('should retreive Movie', () => {
     return tmdb.getMovie(283995)
-      .then((result) => {
-        if (result.errors) {
-          throw new Error(result.errors);
-        }
-        const movie = result.data.movie;
+      .then((movie) => {
         assert.ok(movie.images, 'Cannot found images');
         assert.ok(movie.videos, 'Cannot found videos');
         assert.ok(movie.credits, 'Cannot found credits');
@@ -21,11 +17,7 @@ describe('GraphQL', function(){
 
   it('should retreive Tv', function(){
     return tmdb.getTv(13916)
-      .then((result) => {
-        if (result.errors) {
-          throw new Error(result.errors);
-        }
-        const tv = result.data.tv;
+      .then((tv) => {
         // require('fs').writeFileSync('./tv.json', JSON.stringify(tv));
         // console.log(require('util').inspect(tv, { depth: null }));
         assert.ok(tv.images, 'Cannot found images');
@@ -40,11 +32,7 @@ describe('GraphQL', function(){
 
   it('should retreive Season', function(){
     return tmdb.getSeason(13916, 1)
-      .then((result) => {
-        if (result.errors) {
-          throw new Error(result.errors);
-        }
-        const season = result.data.season;
+      .then((season) => {
         assert.ok(season.images, 'Cannot found images');
         assert.ok(season.videos, 'Cannot found videos');
         assert.ok(season.credits, 'Cannot found credits');
@@ -55,11 +43,7 @@ describe('GraphQL', function(){
 
   it('should search TV', function(){
     return tmdb.searchTv('BoJack')
-      .then((result) => {
-        if (result.errors) {
-          throw new Error(result.errors);
-        }
-        const results = result.data.searchTv;
+      .then((results) => {
         assert.ok(results.length > 0, 'Cannot found results');
       })
     ;
@@ -67,11 +51,7 @@ describe('GraphQL', function(){
 
   it('should search Movie', function(){
     return tmdb.searchMovie('Arme fatale')
-      .then((result) => {
-        if (result.errors) {
-          throw new Error(result.errors);
-        }
-        const results = result.data.searchMovie;
+      .then((results) => {
         assert.ok(results.length > 0, 'Cannot found results');
       })
     ;

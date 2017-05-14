@@ -1,16 +1,11 @@
-const schema = require('../../src/gql/schema.js')();
+const tmdb = require('../../src/gql/index.js');
 const graphql = require('graphql');
 const assert = require('assert');
-const tvGql = require('../../src/gql/query/tv.js');
-const movieGql = require('../../src/gql/query/movie.js');
-const seasonGql = require('../../src/gql/query/season.js');
-const searchTvGql = require('../../src/gql/query/searchTv.js');
-const searchMovieGql = require('../../src/gql/query/searchMovie.js');
 
 describe('GraphQL', function(){
   this.timeout(120000);
   it('should retreive Movie', () => {
-    return graphql.graphql(schema, movieGql, null, null, { movie_id: 283995 })
+    return tmdb.getMovie(283995)
       .then((result) => {
         if (result.errors) {
           throw new Error(result.errors);
@@ -25,7 +20,7 @@ describe('GraphQL', function(){
   });
 
   it('should retreive Tv', function(){
-    return graphql.graphql(schema, tvGql, null, null, { tv_id: 13916 } )
+    return tmdb.getTv(13916)
       .then((result) => {
         if (result.errors) {
           throw new Error(result.errors);
@@ -44,7 +39,7 @@ describe('GraphQL', function(){
   });
 
   it('should retreive Season', function(){
-    return graphql.graphql(schema, seasonGql, null, null, { tv_id: 13916, season_number: 1 })
+    return tmdb.getSeason(13916, 1)
       .then((result) => {
         if (result.errors) {
           throw new Error(result.errors);
@@ -59,7 +54,7 @@ describe('GraphQL', function(){
   });
 
   it('should search TV', function(){
-    return graphql.graphql(schema, searchTvGql, null, null, { query: 'BoJack' })
+    return tmdb.searchTv('BoJack')
       .then((result) => {
         if (result.errors) {
           throw new Error(result.errors);
@@ -71,7 +66,7 @@ describe('GraphQL', function(){
   });
 
   it('should search Movie', function(){
-    return graphql.graphql(schema, searchMovieGql, null, null, { query: 'Arme fatale' })
+    return tmdb.searchMovie('Arme fatale')
       .then((result) => {
         if (result.errors) {
           throw new Error(result.errors);

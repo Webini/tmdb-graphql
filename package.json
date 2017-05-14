@@ -2,7 +2,7 @@
   "name": "tmdb-graphql",
   "version": "1.0.0",
   "description": "",
-  "main": "src/gql/schema.js",
+  "main": "src/gql/index.js",
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha --recursive"
   },

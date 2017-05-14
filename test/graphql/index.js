@@ -1,307 +1,16 @@
 const schema = require('../../src/gql/schema.js')();
 const graphql = require('graphql');
 const assert = require('assert');
-
-const genreFragment = `
-fragment genre on Genre {
-  id
-  name
-}`;
-
-const productionCompanyFragment = `
-fragment productionCompany on ProductionCompany {
-  id
-  name
-}`;
-
-const languageFragment = `
-fragment language on Language {
-  iso_639_1
-  name
-}`;
-
-const countryFragment = `
-fragment country on Country {
-  iso_3166_1
-  name
-}`;
-
-const castFragment = `
- fragment cast on Cast {
-  id
-  character
-  order
-  person { ...person }
-}`;
-
-const crewFragment = ` 
-fragment crew on Crew {
-  id
-  department
-  job
-  person { ...person }
-}`;
-
-const imageFragment = `
-fragment image on Image {
-  aspect_ratio,
-  file_path,
-  height,
-  iso_639_1,
-  vote_average,
-  vote_count,
-  width
-}`;
-
-const videoFragment = ` 
-fragment video on Video {
-  id
-  iso_639_1
-  iso_3166_1
-  key
-  name
-  site
-  type
-  size
-}`;
-
-const keywordFragment = `
-fragment keyword on Keyword {
-  id,
-  name 
-}`;
-
-const externalIdsFragment = `
-fragment extIds on ExternalIds {
-  imdb_id
-  freebase_mid
-  freebase_id
-  tvrage_id
-  id
-}`;
-
-const episodeFragment = `
-fragment episode on Episode {
-  id
-  air_date
-  episode_number
-  guest_stars { ...cast }
-  crew { ...crew }
-  name
-  overview
-  still_path
-  vote_average
-  vote_count
-}`;
-
-const networkFragment = `
-fragment network on Network {
-  id
-  name
-}`;
-
-const personFragment = `
-fragment person on Person {
-  id
-  name
-  profile_path
-}`;
-
-const seasonFragment = `
-fragment season on Season {
-  air_date
-  name
-  overview
-  id
-  poster_path
-  season_number
-  credits {
-    cast { ...cast }
-    crew { ...crew } 
-  },
-  images { 
-    backdrops { ...image }, 
-    posters { ...image }
-  },
-  videos { ...video }
-  episodes { ...episode }
-}
-`;
-
-const movieGql = `
-{ 
-  movie(id: 283995) { 
-    credits {
-      cast { ...cast }
-      crew { ...crew } 
-    }
-    id
-    adult
-    backdrop_path
-    budget
-    genres { ...genre }
-    homepage
-    imdb_id
-    original_language
-    original_title
-    overview
-    popularity
-    poster_path
-    production_companies { ...productionCompany }
-    production_countries { ...country }
-    release_date
-    revenue
-    runtime
-    spoken_languages { ...language }
-    status
-    tagline
-    title
-    video
-    vote_average
-    vote_count
-    videos { ...video }
-    images { 
-      backdrops { ...image },
-      posters { ...image }
-    },
-    keywords { ...keyword }
-  } 
-}
-${personFragment}
-${crewFragment}
-${castFragment}
-${imageFragment}
-${videoFragment}
-${keywordFragment}
-${genreFragment}
-${productionCompanyFragment}
-${languageFragment}
-${countryFragment}
-`;
-
-const tvGql = `
-{ 
-  tv(id: 13916) { 
-    backdrop_path
-    episode_run_time
-    first_air_date
-    genres { ...genre }
-    homepage
-    id
-    in_production
-    languages
-    last_air_date
-    name
-    networks { ...network }
-    number_of_episodes
-    number_of_seasons
-    origin_country
-    original_language
-    original_name
-    overview
-    popularity
-    poster_path
-    production_companies { ...productionCompany }
-    status
-    type
-    vote_average
-    vote_count
-    videos { ...video },
-    credits {
-      cast { ...cast }
-      crew { ...crew } 
-    },
-    images { 
-      backdrops { ...image }, 
-      posters { ...image }
-    },
-    keywords { ...keyword },
-    external_ids { ...extIds },
-    seasons { ...season }
-  } 
-}
-${personFragment}
-${imageFragment}
-${crewFragment}
-${castFragment}
-${videoFragment}
-${keywordFragment}
-${externalIdsFragment}
-${networkFragment}
-${productionCompanyFragment}
-${genreFragment}
-${seasonFragment}
-${episodeFragment}
-`;
-
-const seasonGql = `
-{ 
-  season(tv_id: 13916, season_number: 1) { 
-    name, 
-    videos { ...video },
-    credits {
-      cast { ...cast }
-      crew { ...crew } 
-    },
-    images { 
-      backdrops { ...image }, 
-      posters { ...image }
-    },
-    episodes { ...episode }
-  } 
-}
-${personFragment}
-${imageFragment}
-${crewFragment}
-${castFragment}
-${videoFragment}
-${episodeFragment}
-`;
-
-const searchTvGql = `
-{
-  searchTv(query: "BoJack") {
-    id
-    poster_path
-    popularity
-    backdrop_path
-    vote_average
-    overview
-    first_air_date
-    origin_country
-    genre_ids
-    original_language
-    vote_count
-    name
-    original_name
-  }
-}
-`;
-
-const searchMovieGql = `
-{
-  searchMovie(query: "Arme fatale") {
-    poster_path
-    adult
-    overview
-    release_date
-    genre_ids
-    id
-    original_title
-    original_language
-    title
-    backdrop_path
-    popularity
-    vote_count
-    video
-    vote_average
-  }
-}`;
+const tvGql = require('../../src/gql/query/tv.js');
+const movieGql = require('../../src/gql/query/movie.js');
+const seasonGql = require('../../src/gql/query/season.js');
+const searchTvGql = require('../../src/gql/query/searchTv.js');
+const searchMovieGql = require('../../src/gql/query/searchMovie.js');
 
 describe('GraphQL', function(){
   this.timeout(120000);
   it('should retreive Movie', () => {
-    return graphql.graphql(schema, movieGql)
+    return graphql.graphql(schema, movieGql, null, null, { movie_id: 283995 })
       .then((result) => {
         if (result.errors) {
           throw new Error(result.errors);
@@ -316,7 +25,7 @@ describe('GraphQL', function(){
   });
 
   it('should retreive Tv', function(){
-    return graphql.graphql(schema, tvGql)
+    return graphql.graphql(schema, tvGql, null, null, { tv_id: 13916 } )
       .then((result) => {
         if (result.errors) {
           throw new Error(result.errors);
@@ -335,7 +44,7 @@ describe('GraphQL', function(){
   });
 
   it('should retreive Season', function(){
-    return graphql.graphql(schema, seasonGql)
+    return graphql.graphql(schema, seasonGql, null, null, { tv_id: 13916, season_number: 1 })
       .then((result) => {
         if (result.errors) {
           throw new Error(result.errors);
@@ -350,8 +59,7 @@ describe('GraphQL', function(){
   });
 
   it('should search TV', function(){
-    this.timeout(60000);
-    return graphql.graphql(schema, searchTvGql)
+    return graphql.graphql(schema, searchTvGql, null, null, { query: 'BoJack' })
       .then((result) => {
         if (result.errors) {
           throw new Error(result.errors);
@@ -363,7 +71,7 @@ describe('GraphQL', function(){
   });
 
   it('should search Movie', function(){
-    return graphql.graphql(schema, searchMovieGql)
+    return graphql.graphql(schema, searchMovieGql, null, null, { query: 'Arme fatale' })
       .then((result) => {
         if (result.errors) {
           throw new Error(result.errors);

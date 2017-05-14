@@ -11,7 +11,7 @@ module.exports = (resolvers, requireObject) => {
   const Keyword = requireObject('keyword');
   
   return new graphql.GraphQLObjectType({
-    name: 'movie',
+    name: 'Movie',
     description: 'movie type',
     fields: {
       id: { type: graphql.GraphQLID },

@@ -11,7 +11,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "graphql": "^0.9.6",
-    "mocha": "^3.3.0",
+    "mocha": "^6.2.2",
     "moviedb": "^0.2.8"
   }
 }

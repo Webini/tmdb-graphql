@@ -1,10 +1,16 @@
-const tmdb = require('../../src/gql/index.js');
-const graphql = require('graphql');
+const tmdb = require('../../src/index.js');
 const assert = require('assert');
 
 describe('GraphQL', function(){
   this.timeout(120000);
-  it('should retreive Movie', () => {
+  it('should retrieve configuration', () => {
+    return tmdb.getConfiguration().then((conf) => {
+      assert.ok(conf.images.base_url);
+      assert.ok(conf.images.secure_base_url);
+    });
+  });
+
+  it('should retrieve Movie', () => {
     return tmdb.getMovie(283995)
       .then((movie) => {
         assert.ok(movie.images, 'Cannot found images');
@@ -15,7 +21,7 @@ describe('GraphQL', function(){
     ;
   });
 
-  it('should retreive Tv', function(){
+  it('should retrieve Tv', function(){
     return tmdb.getTv(13916)
       .then((tv) => {
         // require('fs').writeFileSync('./tv.json', JSON.stringify(tv));
@@ -30,7 +36,7 @@ describe('GraphQL', function(){
     ;
   });
 
-  it('should retreive Season', function(){
+  it('should retrieve Season', function(){
     return tmdb.getSeason(13916, 1)
       .then((season) => {
         assert.ok(season.images, 'Cannot found images');

@@ -1,10 +1,9 @@
-module.exports = (api, imageLanguage, language) => { 
+module.exports = (api, apiOptions) => {
   return (source, args, context, info) => {
     return api
       .searchTvAsync({
+        ...apiOptions,
         query: args.query,
-        include_image_language: imageLanguage,
-        language: language
       })
       .then((data) => {
         return data.results || data;

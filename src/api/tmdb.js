@@ -1,11 +1,9 @@
-const Promise      = require('bluebird');
-const Moviedb      = require('moviedb');
+const Promise = require('bluebird');
+const Moviedb = require('moviedb');
 
 const ignoredMethods = [ 'requestToken', 'session' ];
-// const retryDelay     = process.env.TMDB_DEFAULT_RETRY_DELAY || 20;
-// const killAfter      = process.env.TMDB_KILL_RETRY_AFTER || 40;
 
-function create(apiKey = process.env.TMDB_API_KEY, { retryDelay, killAfter } = { retryDelay: process.env.TMDB_DEFAULT_RETRY_DELAY || 20, killAfter: process.env.TMDB_KILL_RETRY_AFTER || 40 }) { 
+function create(apiKey = process.env.TMDB_API_KEY, { retryDelay, killAfter } = { retryDelay: process.env.TMDB_DEFAULT_RETRY_DELAY || 20, killAfter: process.env.TMDB_KILL_RETRY_AFTER || 40 }) {
   if (!apiKey) {
     throw new Error('Api key not defined, you can use TMDB_API_KEY env variable or define apiKey in code');
   }
@@ -13,7 +11,7 @@ function create(apiKey = process.env.TMDB_API_KEY, { retryDelay, killAfter } = {
   let killSwitch = killAfter;
   const inst = Promise.promisifyAll(new Moviedb(apiKey));
   const newInst = {};
-  
+
   // overload to automatically retry after
   Object.keys(inst).forEach((method) => {
     if (ignoredMethods.indexOf(method) !== -1 || !/Async$/.test(method)) {

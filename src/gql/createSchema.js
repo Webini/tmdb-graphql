@@ -1,14 +1,6 @@
 const graphql = require('graphql');
 
 module.exports = (resolvers, objects) => {
-  if (!resolvers) {
-    resolvers = require('./resolvers/index.js')();
-  }
-
-  if (!objects) {
-    objects = require('./objects/index.js')(resolvers);
-  }
-
   const Movie = objects.movie;
   const MovieResolver = resolvers.movie;
   const Tv = objects.tv;
@@ -19,11 +11,17 @@ module.exports = (resolvers, objects) => {
   const SearchTvResolver = resolvers.searchTv;
   const MovieResult = objects.movieResult;
   const SearchMovieResolver = resolvers.searchMovie;
+  const ConfigurationResult = objects.configurationResult;
+  const ConfigurationResolver = resolvers.configuration;
 
   return new graphql.GraphQLSchema({
     query: new graphql.GraphQLObjectType({
       name: 'query',
       fields: {
+        configuration: {
+          type: ConfigurationResult,
+          resolve: ConfigurationResolver,
+        },
         movie: {
           type: Movie,
           args: {

@@ -1,9 +1,9 @@
-module.exports = (api, imageLanguage, language) => { 
+module.exports = (api, apiOptions) => {
   return (source, args, context, info) => {
     return api
       .movieInfoAsync({
+        ...apiOptions,
         id: args.id,
-        include_image_language: imageLanguage,
         append_to_response: 'videos,images,credits,keywords'
       })
     ;

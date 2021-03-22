@@ -1,8 +1,8 @@
 {
   "name": "tmdb-graphql",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
-  "main": "src/gql/index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha --recursive"
   },
@@ -11,7 +11,9 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "graphql": "^0.9.6",
-    "mocha": "^6.2.2",
-    "moviedb": "^0.2.8"
+    "moviedb": "^0.2.10"
+  },
+  "devDependencies": {
+    "mocha": "^8.3.2"
   }
 }

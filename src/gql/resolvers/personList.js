@@ -1,5 +1,4 @@
-module.exports = (api, imageLanguage, language) => { 
-  
+module.exports = (api, apiOptions) => {
   return (source, args, context, info) => {
     const list = source[info.fieldName];
     if (!list || !list.length) {
@@ -21,7 +20,7 @@ module.exports = (api, imageLanguage, language) => {
       delete item.credit_id;
 
       item.person = (person.id ? person : null);
-      
+
       return item;
     });
   };
